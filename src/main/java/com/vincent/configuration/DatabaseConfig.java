@@ -10,6 +10,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -24,12 +25,19 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan({ "com.vincent.configuration" })
 @MapperScan(basePackages="com.vincent.mapper")
 @PropertySource(value = { "classpath:application.properties" })
-public class DatabaseConfig {
+public class DatabaseConfig implements EnvironmentAware{
 	@Autowired
 	private Environment environment;
 
     protected final Log logger = LogFactory.getLog(this.getClass());
-	@Bean
+	
+    @Override
+    public void setEnvironment(final Environment environment) {
+        this.environment = environment;
+    }
+
+    
+    @Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName(environment.getRequiredProperty("jdbc.driverClassName"));
