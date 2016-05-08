@@ -61,13 +61,6 @@ public class DatabaseConfig implements EnvironmentAware{
 	}
 
 	@Bean
-	public MapperScannerConfigurer mapperScan(){
-		MapperScannerConfigurer sc = new MapperScannerConfigurer();
-		sc.setSqlSessionFactoryBeanName("sqlSessionFactory");
-		sc.setBasePackage("com.vincent.mapper");
-		return sc;
-	}
-	@Bean
 	public SqlSessionTemplate sqlSessionTemplate() throws Exception {
 		return new SqlSessionTemplate(sqlSessionFactory());
 	}
